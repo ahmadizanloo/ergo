@@ -1,6 +1,49 @@
 import streamlit as st
 from openai import OpenAI
 import os
+import uuid
+import json
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4()) 
+st.session_state
+# Save chat logs to a session-specific file
+def save_chat_to_file_separate(user_message, assistant_message):
+    session_id = st.session_state.session_id
+    file_name = f"chat_logs_{session_id}.json"
+    chat_entry = {
+        "user_message": user_message,
+        "assistant_message": assistant_message,
+    }
+    try:
+        # Check if the file exists, and load existing chats
+        if os.path.exists(file_name):
+            with open(file_name, "r") as file:
+                chats = json.load(file)
+        else:
+            chats = []
+
+        # Append the new chat entry
+        chats.append(chat_entry)
+
+        # Save updated chat logs back to the file
+        with open(file_name, "w") as file:
+            json.dump(chats, file, indent=4)
+    except Exception as e:
+        st.error(f"Error saving chat: {e}")
+
+# Load chat logs for the current session
+def load_chats_from_file_separate():
+    session_id = st.session_state.session_id
+    file_name = f"chat_logs_{session_id}.json"
+    try:
+        if os.path.exists(file_name):
+            with open(file_name, "r") as file:
+                return json.load(file)
+        else:
+            return []
+    except Exception as e:
+        st.error(f"Error loading chats: {e}")
+        return []
 
 # Title and separator
 st.title("Zahnversicherung")
@@ -93,6 +136,9 @@ def send_message():
 
             # Append the assistant's response to the history
             st.session_state.user_history.append({"role": "assistant", "content": assistant_message})
+             # Save the chat to a session-specific JSON file
+            #save to json
+            save_chat_to_file_separate(user_message, assistant_message)
         except Exception as e:
             st.error(f"Error: {str(e)}")
     else:
