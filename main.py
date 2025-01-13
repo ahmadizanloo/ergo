@@ -153,3 +153,5 @@ for message in st.session_state.user_history:
         st.write(f"**Sie:** {message['content']}")
     elif message["role"] == "assistant":
         st.write(f"**Martin:** {message['content']}")
+st.write("Current working directory:", os.getcwd())
+st.write("Files in the directory:", os.listdir())
