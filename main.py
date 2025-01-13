@@ -7,7 +7,7 @@ st.title("Zahnversicherung")
 st.image("pic.png", width=150)  # Display an image with specified width
 # Markdown for introduction
 st.markdown('''
-<h3>"Hallo, ich bin Martin Maier. Ihr Smart Teeth-Versicherungsberater. Wie kann ich Ihnen helfen?"</h3>
+<h3>"Hallo, ich bin Martin Maier. Ihr Smart Zahnversicherungsberater. Wie kann ich Ihnen helfen?"</h3>
 ''', unsafe_allow_html=True)  # HTML content for better formatting
 
 st.markdown("------")  # Separator (horizontal line)
