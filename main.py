@@ -87,7 +87,7 @@ def send_message():
         try:
             response = openai_client.chat.completions.create(
                 messages=st.session_state.user_history,
-                model="gpt-3.5-turbo",
+                model="gpt-4o-mini",
             )
             assistant_message = response.choices[0].message.content
 
